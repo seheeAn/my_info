@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project files
+portfolio-site-spec.md
+.claude/
+CLAUDE.md
