@@ -24,8 +24,12 @@ jobs:
       - name: 의존성 설치
         run: npm ci
 
+      - name: Node.js 버전 확인
+        run: node --version
+
       - name: 글 동기화 + 카테고리 분류 실행
-        run: npx tsx src/scripts/sync.ts
+        # NODE_OPTIONS --require로 tsx 실행 전에 WebSocket 폴리필 먼저 로드
+        run: NODE_OPTIONS="--require ./src/scripts/polyfill.cjs" npx tsx src/scripts/sync.ts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
