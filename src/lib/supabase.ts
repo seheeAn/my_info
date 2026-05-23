@@ -4,11 +4,9 @@ import ws from 'ws'
 const supabaseUrl = process.env.SUPABASE_URL!
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY!
 
-// Node.js 22 미만은 WebSocket이 내장되지 않아 ws 패키지로 대체
-// 브라우저 환경(Next.js 클라이언트)에서는 globalThis.WebSocket이 있으므로 무시됨
-const realtimeOptions = typeof globalThis.WebSocket === 'undefined'
+// 서버 전용 Supabase 클라이언트
+// ws 패키지로 WebSocket 직접 주입 (Node.js 22 미만 호환)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ? { realtime: { transport: ws as any } }
-  : {}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, realtimeOptions)
+  realtime: { transport: ws as any },
+})
