@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import { supabase } from './supabase'
+import { db } from './db'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
@@ -66,7 +66,7 @@ export async function classifyBatch(posts: PostForClassify[]): Promise<void> {
   }))
 
   for (const { id, category } of updates) {
-    const { error } = await supabase
+    const { error } = await db
       .from('posts')
       .update({ category })
       .eq('id', id)
@@ -81,7 +81,7 @@ export async function classifyBatch(posts: PostForClassify[]): Promise<void> {
 
 // category가 null인 글 전체를 20개씩 배치로 분류
 export async function classifyNewPosts(): Promise<void> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('posts')
     .select('id, title, tags')
     .is('category', null)

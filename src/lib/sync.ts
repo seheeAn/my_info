@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { db } from './db'
 import { fetchAllVelogPosts, fetchVelogPostsSince } from './collectors/velog'
 import { fetchAllTistoryPosts, fetchTistoryPostsSince } from './collectors/tistory'
 import { PostRaw } from '@/types/post'
@@ -6,7 +6,7 @@ import { PostRaw } from '@/types/post'
 // 해당 source의 DB 내 가장 최근 published_at을 반환
 // 데이터가 없으면 null 반환 → 전체 수집 신호
 export async function getLastSyncedDate(source: string): Promise<Date | null> {
-  const { data, error } = await supabase
+  const { data, error } = await db
     .from('posts')
     .select('published_at')
     .eq('source', source)
@@ -37,7 +37,7 @@ async function upsertPosts(posts: PostRaw[]): Promise<void> {
     is_deleted: false,
   }))
 
-  const { error } = await supabase
+  const { error } = await db
     .from('posts')
     .upsert(rows, { onConflict: 'source,original_id' })
 
@@ -65,7 +65,7 @@ export async function updateActivityLog(posts: PostRaw[]): Promise<void> {
     return { source, date, count }
   })
 
-  const { error } = await supabase
+  const { error } = await db
     .from('activity_log')
     .upsert(rows, { onConflict: 'date,source' })
 
