@@ -3,8 +3,8 @@ import { db } from './db'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
-// gemini-2.0-flash: 무료 티어 하루 1500회 제공
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+// gemini-2.5-flash: 무료 티어 지원 (gemini-2.0-flash는 2026.06.01 종료)
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
 
 // 확정된 카테고리 목록
 // Work: 기술/업무 관련 / Life: 개인 관심사 관련
