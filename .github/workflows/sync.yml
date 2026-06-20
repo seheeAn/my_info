@@ -36,6 +36,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          # RLS 우회용 쓰기 키 - GitHub Secret에 반드시 등록 필요
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           NEXT_PUBLIC_VELOG_USERNAME: ${{ secrets.VELOG_USERNAME }}
           NEXT_PUBLIC_TISTORY_BLOG_NAME: ${{ secrets.TISTORY_BLOG_NAME }}
